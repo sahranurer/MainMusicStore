@@ -37,13 +37,28 @@ namespace MainMusicStore.Areas.Admin.Controllers
         }
         #endregion
 
+        [HttpDelete]
+        public IActionResult Delete(int Id)
+        {
+            var deleteData = _uow.category.Get(Id);
+            if (deleteData == null)
+            {
+                return Json(new { success = false, message = "Data Not Found" });
+            }
+            _uow.category.Remove(deleteData);
+            _uow.Save();
+            return Json(new { success = true, message = "Delete Operation Successfully" });
+        }
+
+
+
         [HttpGet]
         public IActionResult Upsert(int? Id)
         {
             Category cat = new Category();
             if (Id == null)
             {
-                return View();
+                return View(cat);
             }
 
             cat = _uow.category.Get((int)Id);
@@ -55,10 +70,6 @@ namespace MainMusicStore.Areas.Admin.Controllers
             return NotFound();
         }
 
-
-
-
-        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Upsert(Category category)
@@ -67,12 +78,12 @@ namespace MainMusicStore.Areas.Admin.Controllers
             {
                 if (category.Id == 0)
                 {
-                    //Create işlemi
+                    //Create
                     _uow.category.Add(category);
                 }
                 else
                 {
-                    //Update işlemi
+                    //Update
                     _uow.category.Update(category);
                 }
                 _uow.Save();
@@ -81,26 +92,6 @@ namespace MainMusicStore.Areas.Admin.Controllers
             return View(category);
         }
 
-        [HttpGet]
-        public IActionResult Upsert(int? Id)
-        {
-            Category cat = new Category();
-
-            if( Id == null)
-            {
-                //This for Create
-                return View(cat);
-            }
-           cat = _uow.category.Get((int)Id);
-            if (cat != null)
-            {
-                return View(cat);
-            }
-            return NotFound();
-        }
-
-
-
-        */
+        
     }
 }
