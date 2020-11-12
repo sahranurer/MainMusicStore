@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.30621.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMusicStore", "MainMusicStore\MainMusicStore.csproj", "{AF5E850B-37BC-4E2E-B746-F67EC2886112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainMusicStore.DataAccess", "MainMusicStore.DataAccess\MainMusicStore.DataAccess.csproj", "{68F9011C-B036-4378-9F99-D28D5A4BA463}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMusicStore.DataAccess", "MainMusicStore.DataAccess\MainMusicStore.DataAccess.csproj", "{68F9011C-B036-4378-9F99-D28D5A4BA463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainMusicStore.Models", "MainMusicStore.Models\MainMusicStore.Models.csproj", "{F470303B-7579-42A8-B2D9-99D8C59E7520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMusicStore.Models", "MainMusicStore.Models\MainMusicStore.Models.csproj", "{F470303B-7579-42A8-B2D9-99D8C59E7520}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainMusicStore.Utility", "MainMusicStore.Utility\MainMusicStore.Utility.csproj", "{EA5B5C9D-E546-463F-8921-3B901F66019B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMusicStore.Utility", "MainMusicStore.Utility\MainMusicStore.Utility.csproj", "{EA5B5C9D-E546-463F-8921-3B901F66019B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

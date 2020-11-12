@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MainMusicStore.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201101155437_AddCategoryModel")]
+    [Migration("20201110080106_AddCategoryModel")]
     partial class AddCategoryModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

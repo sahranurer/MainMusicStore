@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MainMusicStore.Models.DbModels
 {
-   public class Category
+    public class Category
     {
         [Key]
         public int Id { get; set; }
