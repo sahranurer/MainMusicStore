@@ -8,13 +8,13 @@
 }
 
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="row p-3 border">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         @if (Model.Product.Id != 0)
         {
             title = "Edit Product";
-            <input type="hidden" asp-for="Product.Id"/>
+            <input type="hidden" asp-for="Product.Id" />
         }
         <div class="col-12 border-bottom">
             <h2 class="text-white">@title</h2>
@@ -63,8 +63,7 @@
                 </div>
 
                 <div class="col-8">
-                    <input asp-for="Product.Description" class="form-control" />
-                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                   <textarea asp-for="Product.Description" class="form-control" ></textarea>
                 </div>
 
             </div>
@@ -152,8 +151,8 @@
                 </div>
 
                 <div class="col-8">
-                    <input type="file" id="uploadBox" multiple class="form-control"/>
-                    
+                    <input type="file" name="files" id="uploadBox" multiple class="form-control" />
+
                 </div>
 
             </div>
@@ -167,22 +166,28 @@
                     }
                     else
                     {
-                <div class="row">
+                        <div class="row">
 
-                    <div class="col">
-                        <button type="submit" onclick="return validatteInput()" class="btn btn-primary form-control">Create</button>
-                    </div>
+                            <div class="col">
+                                <button type="submit" onclick="return validateInput()" class="btn btn-primary form-control">Create</button>
+                            </div>
 
-                    <div class="col">
-                        <a asp-action="Index" class="btn btn-success form-control">Back To List</a>
+                            <div class="col">
+                                <a asp-action="Index" class="btn btn-success form-control">Back To List</a>
 
-                    </div>
+                            </div>
 
-                </div>
+                        </div>
                     }
                 </div>
             </div>
         </div>
+        @if (Model.Product.Id != 0)
+        {
+            <div class="col-3 offset-1 pt-4">
+                <img src="@Model.Product.ImageUrl" width="100%" style="border-radius:3px;border:1px;"/>
+            </div>
+        }
     </div>
 
 </form>
@@ -190,4 +195,26 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+
+
+    <script src="https://cdn.tiny.cloud/1/2t3vi011017ztzljpe8vm8svkpdxbo7y8snazz2kaea6je07/tinymce/5/tinymce.min.js" 
+            referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'lists',
+        menubar:'file edit format'
+
+    });
+
+    function validateInput() {
+        if (document.getElementById("uploadBox").value == "") {
+            swal("Error", "Please select an image", "error");
+            return false;
+        }
+    }
+
+</script>
+
 }
