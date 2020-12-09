@@ -9,6 +9,8 @@ namespace MainMusicStore.DataAccess.IMainRepository
         ICategoryRepository category { get; }
         IProductRepository Product { get; }
         ICoverTypeRepository CoverType { get; }
+        ICompanyRepository Company { get; }
+        IApplicationUserRepository ApplicationUser { get; }
         ISPCallRepository sp_call { get; }
         void Save();
     }
