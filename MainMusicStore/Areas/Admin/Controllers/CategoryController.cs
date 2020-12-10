@@ -10,7 +10,7 @@ namespace MainMusicStore.Areas.Admin.Controllers
 
 
         #region Variables
-        private readonly IUnitOfWork _uow; 
+        private readonly IUnitOfWork _uow;
         #endregion
 
 
@@ -18,7 +18,7 @@ namespace MainMusicStore.Areas.Admin.Controllers
         public CategoryController(IUnitOfWork uow)
         {
             _uow = uow;
-        }  
+        }
         #endregion
 
 
@@ -26,7 +26,7 @@ namespace MainMusicStore.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
-        } 
+        }
         #endregion
 
         #region API CALLS
@@ -92,6 +92,6 @@ namespace MainMusicStore.Areas.Admin.Controllers
             return View(category);
         }
 
-        
+
     }
 }
