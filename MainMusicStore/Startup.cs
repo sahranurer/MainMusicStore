@@ -41,9 +41,35 @@ namespace MainMusicStore
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IEmailSender, EmailSender>();
+
+            services.Configure<EmailOptions>(Configuration);
+
             services.AddControllersWithViews().AddRazorRuntimeCompilation();//güncelleme iþlemi gerçekleþiyor
             services.AddRazorPages();
-           
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+
+            });
+            
+            services.AddAuthentication().AddFacebook(options => {
+
+                options.AppId = "835141887322434";
+                options.AppSecret = "6507adc16fb1155bc84ce32e4a1b2ae2";
+            
+            });
+
+            services.AddAuthentication().AddGoogle(options => {
+
+                options.ClientId = "1047246587904-tjv33dnb3tvnpp9ebfbcfqf83al5bjbq.apps.googleusercontent.com";
+                options.ClientSecret = "Dh8EYjZC-kQ8q-m0MY8GhL6w";
+
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
