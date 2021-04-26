@@ -24,7 +24,7 @@ namespace MainMusicStore.Utility
         {
 
             var client = new SendGridClient(sendGridApiKey);
-            var from = new EmailAddress("sahranuerr@gmail.com", "Main Music Store");
+            var from = new EmailAddress("sahranurerr@gmail.com", "Main Music Store");
 
             var to = new EmailAddress(email, "End User");
 

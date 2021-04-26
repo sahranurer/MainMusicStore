@@ -25,29 +25,32 @@ namespace MainMusicStore.Models.DbModels
         [Required]
         public double OrderTotal { get; set; }
 
-
         public string TrackingNumber { get; set; }
 
         public string Carrier { get; set; }
 
-        public string OrderStatue { get; set; }
+        public string OrderStatus { get; set; }
 
         public string PaymentStatus { get; set; }
 
-        public string PaymentDate { get; set; }
+        public DateTime PaymentDate { get; set; }
 
         public DateTime PaymentDueDate { get; set; }
 
-        public string TransectionId { get; set; }
+        public string TransactionId { get; set; }
 
+        [Required]
         public string PhoneNumber { get; set; }
+        [Required]
         public string StreetAddress { get; set; }
+        [Required]
         public string City { get; set; }
+        [Required]
         public string State { get; set; }
+        [Required]
         public string PostCode { get; set; }
+        [Required]
         public string Name { get; set; }
-
-
 
     }
 }

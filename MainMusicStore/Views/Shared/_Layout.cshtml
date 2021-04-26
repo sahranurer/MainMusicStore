@@ -18,7 +18,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Main Music Store</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Music Store</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -29,16 +29,17 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-
                         @if (User.IsInRole(ProjectConstant.Role_Admin))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Content Management
+                                    Content Managment
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="CoverType" asp-action="Index">Cover Type</a>
+
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
 
                                     <div class="dropdown-divider"></div>
@@ -46,6 +47,7 @@
                                 </div>
                             </li>
                         }
+
                         @if (User.IsInRole(ProjectConstant.Role_Employee) || User.IsInRole(ProjectConstant.Role_Admin))
                         {
                             <li class="nav-item dropdown">
@@ -55,11 +57,12 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Company" asp-action="Index">Company</a>
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">User List</a>
-
                                 </div>
                             </li>
                         }
-
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="Admin" asp-controller="Order" asp-action="Index">Orders</a>
+                        </li>
                         @if (HttpContextAccessor.HttpContext.Session.GetInt32(ProjectConstant.shoppingCart) != null)
                         {
                             <li style="color:white">
@@ -67,25 +70,19 @@
                                     @{
                                         var count = HttpContextAccessor.HttpContext.Session.GetInt32(ProjectConstant.shoppingCart);
                                     }
-                                    <i class="fas fa-shopping-cart">(@count)</i>
+                                    <i class="fas fa-shopping-cart"> (@count)</i>
                                 </a>
-
                             </li>
                         }
                         else
                         {
                             <li style="color:white">
-                                <a href="a" class="nav-link">
-                                   
-                                    <i class="fas fa-shopping-cart">(0)</i>
-                                </a>
+                                <a href="#" class="nav-link">
 
+                                    <i class="fas fa-shopping-cart"> (0)</i>
+                                </a>
                             </li>
                         }
-
-
-
-
                     </ul>
                 </div>
             </div>
@@ -97,9 +94,9 @@
         </main>
     </div>
 
-    <footer class="border-dark footer text-white bg-dark text-white">
+    <footer class="border-top footer text-white bg-dark ">
         <div class="container">
-            &copy; 2021 - Main Music Store
+            &copy; 2020 - Main Music Store
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -107,7 +104,9 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://kit.fontawesome.com/e19c476714.js"></script>
     @RenderSection("Scripts", required: false)
