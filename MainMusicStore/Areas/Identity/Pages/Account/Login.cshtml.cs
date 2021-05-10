@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MainMusicStore.DataAccess.IMainRepository;
-using MainMusicStore.Utility;
 using Microsoft.AspNetCore.Http;
+using MainMusicStore.Utility;
 
 namespace MainMusicStore.Areas.Identity.Pages.Account
 {
@@ -23,15 +23,18 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IEmailSender _emailSender;
         private readonly IUnitOfWork _uow;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager,
+            IEmailSender emailSender,
             IUnitOfWork uow)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
             _logger = logger;
             _uow = uow;
         }
@@ -85,16 +88,14 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    var user = _uow.ApplicationUser.GetFirstOrDefault(u=>u.Email== Input.Email);
 
-                    var user = _uow.ApplicationUser.GetFirstOrDefault(u => u.Email == Input.Email);
-
-                    int count = _uow.ShoppingCart.GetAll(u => u.ApplicationUserId == user.Id).Count();
+                    int count = _uow.ShoppingCart.GetAll(u=>u.ApplicationUserId == user.Id).Count();
 
                     HttpContext.Session.SetInt32(ProjectConstant.shoppingCart, count);
-
 
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
@@ -116,6 +117,35 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostSendVerificationEmailAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+            }
+
+            var userId = await _userManager.GetUserIdAsync(user);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { userId = userId, code = code },
+                protocol: Request.Scheme);
+            await _emailSender.SendEmailAsync(
+                Input.Email,
+                "Confirm your email",
+                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();
         }
     }

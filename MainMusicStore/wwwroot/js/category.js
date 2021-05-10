@@ -39,7 +39,7 @@ function Delete(url) {
         text: "You won't be able to revert this!",
         icon: 'warning',
         buttons: true,
-        dangerMode: true
+        dangerMode:true
     }).then((willDelete) => {
         if (willDelete) {
             $.ajax({

@@ -18,7 +18,6 @@ namespace MainMusicStore.Areas.Customer.Controllers
     [Area("Customer")]
     public class HomeController : Controller
     {
-
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _uow;
 
@@ -36,11 +35,10 @@ namespace MainMusicStore.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             if (claim != null)
             {
-               var shoppingCount = _uow.ShoppingCart.GetAll(a => a.ApplicationUserId == claim.Value).ToList().Count();
-               HttpContext.Session.SetInt32(ProjectConstant.shoppingCart, shoppingCount);
+                var shoppingCount = _uow.ShoppingCart.GetAll(a => a.ApplicationUserId == claim.Value).ToList().Count();
 
+                HttpContext.Session.SetInt32(ProjectConstant.shoppingCart, shoppingCount);
             }
-
             return View(productList);
         }
 
@@ -88,7 +86,7 @@ namespace MainMusicStore.Areas.Customer.Controllers
 
                 var shoppingCount = _uow.ShoppingCart.GetAll(a => a.ApplicationUserId == cartObj.ApplicationUserId).ToList().Count();
 
-                 HttpContext.Session.SetInt32(ProjectConstant.shoppingCart, shoppingCount);
+                HttpContext.Session.SetInt32(ProjectConstant.shoppingCart, shoppingCount);
 
                 return RedirectToAction(nameof(Index));
             }

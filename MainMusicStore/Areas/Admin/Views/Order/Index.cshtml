@@ -1,38 +1,48 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
-    var status = Context.Request.Query["status"];
+<br />
+@{ Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var pending = "text-primary";
-    var all = "text-primary";
-    var inprocess = "text-primary";
-    var rejected = "text-primary";
-    var completed = "text-primary";
+                var status = Context.Request.Query["status"];
+
+                var pending = "text-primary";
+                var all = "text-primary";
+                var inprocess = "text-primary";
+                var rejected = "text-primary";
+                var completed = "text-primary";
 
 
-    switch (status)
-    {
-        case "pending":
-            pending = "active text-white";
-            break;
+                switch (status)
+                {
+                    case "pending":
+                        pending = "active text-white";
+                        break;
 
-        case "inprocess":
-            inprocess = "active text-white";
-            break;
+                    case "inprocess":
+                        inprocess = "active text-white";
+                        break;
 
-        case "completed":
-            completed = "active text-white";
-            break;
+                    case "completed":
+                        completed = "active text-white";
+                        break;
 
-        case "rejected":
-            rejected = "active text-white";
-            break;
+                    case "rejected":
+                        rejected = "active text-white";
+                        break;
 
-        default:
-            all = "active text-white";
-            break;
+                    default:
+                        all = "active text-white";
+                        break;
+                } 
     }
-}
 
 <div class="border p-3">
     <div class="d-flex justify-content-between mb-3">
@@ -84,5 +94,17 @@
 
 @section Scripts{
 
-    <script src="~/js/orders.js"></script>
+    <script src="~/js/order.js"></script>
 }
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<br />

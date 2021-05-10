@@ -1,5 +1,4 @@
 ﻿using MainMusicStore.Data;
-using MainMusicStore.DataAccess.IMainRepository;
 using MainMusicStore.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,13 +12,10 @@ namespace MainMusicStore.Areas.Admin.Controllers
     [Authorize(Roles = ProjectConstant.Role_Admin)]
     public class UserController : Controller
     {
-
-
         #region Variables
-        // private readonly IUnitOfWork _uow;
+        //private readonly IUnitOfWork _uow;
         private readonly ApplicationDbContext _db;
         #endregion
-
 
         #region CTOR
         public UserController(ApplicationDbContext db)
@@ -27,7 +23,6 @@ namespace MainMusicStore.Areas.Admin.Controllers
             _db = db;
         }
         #endregion
-
 
         #region Actions
         public IActionResult Index()
@@ -47,6 +42,7 @@ namespace MainMusicStore.Areas.Admin.Controllers
             {
                 var roleId = userRole.FirstOrDefault(u => u.UserId == user.Id).RoleId;
                 user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
+
                 if (user.Company == null)
                 {
                     user.Company = new Models.DbModels.Company()
@@ -56,29 +52,25 @@ namespace MainMusicStore.Areas.Admin.Controllers
                 }
             }
             return Json(new { data = userList });
-           
         }
-        #endregion
 
-       public IActionResult LockUnlock([FromBody] string id)
+        [HttpPost]
+        public IActionResult LockUnlock([FromBody] string id)
         {
             var data = _db.ApplicationUsers.FirstOrDefault(u => u.Id == id);
             if (data == null)
                 return Json(new { success = false, message = "Error while locking/unlocking" });
-                if (data.LockoutEnd != null && data.LockoutEnd > DateTime.Now)
-                    data.LockoutEnd = DateTime.Now;
-                
-                else
-                    data.LockoutEnd = DateTime.Now.AddYears(10);
-                
-                
-            
+
+            if (data.LockoutEnd != null && data.LockoutEnd > DateTime.Now)
+                data.LockoutEnd = DateTime.Now;
+            else
+                data.LockoutEnd = DateTime.Now.AddYears(10);
+
             _db.SaveChanges();
             return Json(new { success = true, message = "Operation Successfully" });
         }
 
-
-
+        #endregion
 
     }
 }

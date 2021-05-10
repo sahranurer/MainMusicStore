@@ -4,7 +4,6 @@ $(document).ready(function () {
     loadDataTable();
 });
 
-
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": {
@@ -27,7 +26,7 @@ function loadDataTable() {
                     if (lockout > today) {
                         //user ,s currently locked
                         return `
-                                  <div class="text-center">
+                            <div class="text-center">
                                 <a onclick=LockUnlock('${data.id}') class="btn btn-danger text-white" style="cursor:pointer">
                                     <i class="fas fa-lock-open"></i>Unlock 
                                 </a>
@@ -35,7 +34,7 @@ function loadDataTable() {
                            `;
                     } else {
                         return `
-                                  <div class="text-center">
+                            <div class="text-center">                              
                                 <a onclick=LockUnlock('${data.id}') class="btn btn-success text-white" style="cursor:pointer">
                                     <i class="fas fa-lock"></i>Lock 
                                 </a>
@@ -43,20 +42,20 @@ function loadDataTable() {
                            `;
                     }
 
-
                 }, "width": "25%"
             }
         ]
     });
 }
 
-function LockUnlock(id) {
 
+
+function LockUnlock(id) {
     $.ajax({
         type: "POST",
         url: '/Admin/User/LockUnlock',
         data: JSON.stringify(id),
-        contentType:"application/json",
+        contentType: "application/json",
         success: function (data) {
             if (data.success) {
                 toastr.success(data.message);
@@ -67,6 +66,4 @@ function LockUnlock(id) {
             }
         }
     });
-
-
 }

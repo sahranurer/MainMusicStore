@@ -37,6 +37,8 @@ namespace MainMusicStore.DataAccess.MainRepository
 
         public ISPCallRepository sp_call { get; private set; }
 
+        public IAboutRepository about { get; private set; }
+
         public void Dispose()
         {
             _db.Dispose();

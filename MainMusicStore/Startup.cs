@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,17 +36,17 @@ namespace MainMusicStore
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser,IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IEmailSender, EmailSender>();
 
             services.Configure<EmailOptions>(Configuration);
             services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();//güncelleme iþlemi gerçekleþiyor
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();//gÃ¼ncelleme iÃ¾lemi gerÃ§ekleÃ¾iyor
             services.AddRazorPages();
 
             services.ConfigureApplicationCookie(options =>
@@ -56,12 +56,12 @@ namespace MainMusicStore
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 
             });
-            
+
             services.AddAuthentication().AddFacebook(options => {
 
                 options.AppId = "835141887322434";
                 options.AppSecret = "6507adc16fb1155bc84ce32e4a1b2ae2";
-            
+
             });
 
             services.AddAuthentication().AddGoogle(options => {
@@ -71,7 +71,7 @@ namespace MainMusicStore
 
             });
 
-           
+
 
             services.AddSession(options =>
             {

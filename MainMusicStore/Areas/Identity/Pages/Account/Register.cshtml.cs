@@ -72,8 +72,6 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
 
-
-
             [Required]
             public string Name { get; set; }
             public string StreetAddress { get; set; }
@@ -88,7 +86,6 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
 
             public IEnumerable<SelectListItem> CompanyList { get; set; }
             public IEnumerable<SelectListItem> RoleList { get; set; }
-
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -102,16 +99,15 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
                     Text = i.Name,
                     Value = i.Id.ToString()
                 }),
+
                 RoleList = _roleManager.Roles
                 .Where(r => r.Name != ProjectConstant.Role_User_Indi)
                 .Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
-
                 })
             };
-
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -131,6 +127,7 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
                     StreetAddress = Input.StreetAddress,
                     City = Input.City,
                     State = Input.State,
+                    PostaCode = Input.PostaCode,
                     Name = Input.Name,
                     PhoneNumber = Input.PhoneNumber,
                     Role = Input.Role
@@ -140,24 +137,6 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if (!await _roleManager.RoleExistsAsync(ProjectConstant.Role_Admin))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(ProjectConstant.Role_Admin));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(ProjectConstant.Role_Employee))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(ProjectConstant.Role_Employee));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(ProjectConstant.Role_User_Comp))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(ProjectConstant.Role_User_Comp));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(ProjectConstant.Role_User_Indi))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(ProjectConstant.Role_User_Indi));
-                    }
-
-                    //await _userManager.AddToRoleAsync(user, ProjectConstant.Role_Admin);
                     if (user.Role == null)
                     {
                         await _userManager.AddToRoleAsync(user, ProjectConstant.Role_User_Indi);
@@ -170,26 +149,25 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
                         }
                         await _userManager.AddToRoleAsync(user, user.Role);
                     }
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
-                               "/Account/ConfirmEmail",
-                                pageHandler: null,
-                                values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                                protocol: Request.Scheme);
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code },
+                        protocol: Request.Scheme);
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                       $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-
-
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                     }
                     else
                     {
+
                         if (user.Role == null)
                         {
                             await _signInManager.SignInAsync(user, isPersistent: false);
@@ -200,7 +178,6 @@ namespace MainMusicStore.Areas.Identity.Pages.Account
                             //TODO:Admin is Registering new user
                             return RedirectToAction("Index", "User", new { Area = "Admin" });
                         }
-
 
                     }
                 }

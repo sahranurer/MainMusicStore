@@ -214,7 +214,7 @@
                                                 <small class="text-muted">Quantity : @item.Count</small>
                                             </div>
                                             <div class="col-4">
-                                                <p class="text-success">@(String.Format("{0:C}", item.Count * item.Price))</p>
+                                                <p class="text-dark">@(String.Format("{0:C}", item.Count * item.Price))</p>
                                             </div>
                                         </div>
                                     </li>
@@ -251,8 +251,8 @@
 
 
                             @if (Model.OrderHeader.OrderStatus != ProjectConstant.StatusRefund
-                            && Model.OrderHeader.OrderStatus != ProjectConstant.StatusCancelled
-                            && User.IsInRole(ProjectConstant.Role_Admin) || User.IsInRole(ProjectConstant.Role_Employee))
+                             && Model.OrderHeader.OrderStatus != ProjectConstant.StatusCancelled
+                             && User.IsInRole(ProjectConstant.Role_Admin) || User.IsInRole(ProjectConstant.Role_Employee))
                             {
                                 <div class="pt-2">
                                     <a asp-action="CancelOrder" asp-route-id="@Model.OrderHeader.Id" class="btn btn-danger form-control">Cancel Order</a>
@@ -272,6 +272,7 @@
         function validateInput() {
             var tracking = document.getElementById("trackingNumber");
             var carrier = document.getElementById("carrier");
+
             if (tracking.toString() = '') {
                 swal("Error", "Please enter tracking number", "error");
                 return false;
@@ -286,14 +287,16 @@
                 }
             }
         }
+
         $('#startProcessing').click(function () {
             var tracking = $('#trackingNumber').val();
             var carrier = $('#carrier').val();
-            if (tracking == "") {
-                swal("Error", "Please enter tracking number", "error");
+
+            if (tracking=="") {
+                 swal("Error", "Please enter tracking number", "error");
                 return false;
             } else {
-                if (carrier = "") {
+                if (carrier= "") {
                     swal("Error", "Please enter carrier number", "error");
                     return false;
                 }
@@ -302,6 +305,7 @@
                 }
             }
         });
+
     </script>
 
 }

@@ -4,7 +4,6 @@ $(document).ready(function () {
     loadDataTable();
 });
 
-
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": {
@@ -31,13 +30,15 @@ function loadDataTable() {
     });
 }
 
+
+
 function Delete(url) {
     swal({
-        title: "Are you sure you want to Delete?",
-        text: "You will not be able to restore the data!",
-        icon: "warning",
+        title: 'Are you sure you want to Delete?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
         buttons: true,
-        dangerMode: true
+        dangerMode:true
     }).then((willDelete) => {
         if (willDelete) {
             $.ajax({

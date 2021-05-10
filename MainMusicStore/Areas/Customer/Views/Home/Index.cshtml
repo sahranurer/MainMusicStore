@@ -1,49 +1,158 @@
-﻿
+﻿@model IEnumerable<MainMusicStore.Models.DbModels.Product>
+<!DOCTYPE html>
+<html>
+<head>
 
-@{
-    ViewData["Title"] = "Home Page";
-}
+    <!-- for-mobile-apps -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:title" content="Vide" />
+    <meta name="keywords" content="Big store Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+         addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+        function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //for-mobile-apps -->
+    <link href="~/Temp2/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="~/Temp2/css/style.css" rel='stylesheet' type='text/css' />
+    <!-- js -->
+    <script src="~/Temp2/js/jquery-1.11.1.min.js"></script>
+    <!-- //js -->
+    <!-- start-smoth-scrolling -->
+    <script type="text/javascript" src="~/Temp2/js/move-top.js"></script>
+    <script type="text/javascript" src="~/Temp2/js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({ scrollTop: $(this.hash).offset().top }, 1000);
+            });
+        });
+    </script>
+    <!-- start-smoth-scrolling -->
+    <link href="~/Temp2/css/font-awesome.css" rel="stylesheet">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Noto+Sans:400,700' rel='stylesheet' type='text/css'>
+    <!--- start-rate---->
+    <script src="~/Temp2/js/jstarbox.js"></script>
+    <link rel="stylesheet" href="~/Temp2/css/jstarbox.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery('.starbox').each(function () {
+                var starbox = jQuery(this);
+                starbox.starbox({
+                    average: starbox.attr('data-start-value'),
+                    changeable: starbox.hasClass('unchangeable') ? false : starbox.hasClass('clickonce') ? 'once' : true,
+                    ghosting: starbox.hasClass('ghosting'),
+                    autoUpdateAverage: starbox.hasClass('autoupdate'),
+                    buttons: starbox.hasClass('smooth') ? false : starbox.attr('data-button-count') || 5,
+                    stars: starbox.attr('data-star-count') || 5
+                }).bind('starbox-value-changed', function (event, value) {
+                    if (starbox.hasClass('random')) {
+                        var val = Math.random();
+                        starbox.next().text(' ' + val);
+                        return val;
+                    }
+                })
+            });
+        });
+    </script>
+    <!---//End-rate---->
+
+</head>
+<body>
+
+    <section class="contact py-lg-4 py-md-3 py-sm-3 py-3">
+        <div class="container-fluid py-lg-5 py-md-4 py-sm-4 py-3">
+            <h3 class="title text-center mb-lg-5 mb-md-4 mb-sm-4 mb-3">Music Shop</h3>
+            <div class="row">
+
+                <div class="left-ads-display col-lg-9">
+                    <div class="row">
 
 
-
-@foreach (var product in Model)
-{
-
-    <div class="product-toys-info">
-        <div class="men-pro-item">
-            <div class="men-thumb-item">
-                <section class="product py-lg-4 py-md-3 py-sm-3 py-3">
-                    <div class="row pb-3 backgroundWhite">
-                        <div class="container py-lg-5 py-md-5 py-sm-4 py-3">
-                            <div class="col-lg-3 col-md-6">
-                                <div class="row p-2">
-                                    <div class="mt-lg-4 mt-3 product-info-img">
-                                        <div class="col-12  p-1" style="border:1px solid #008cba; border-radius: 5px;">
-                                            <div class="card" style="border:0px;">
-                                                <img src="@product.ImageUrl" class="card-img-top rounded" />
-                                                <div class="pl-1">
-                                                    <p class="card-title h5"><b style="color:#2c3e50">@product.Title</b></p>
-                                                    <p class="card-title text-primary">by <b>@product.Author</b></p>
-                                                </div>
-                                                <div style="padding-left:5px;">
-                                                    <p>List Price: <strike><b class="">$ @product.ListPrice.ToString("0.00")</b></strike></p>
-                                                </div>
-                                                <div style="padding-left:5px;">
-                                                    <p style="color:maroon">As low as: <b class="">$ @product.Price100.ToString("0.00")</b></p>
+                        @foreach (var product in Model)
+                        {
+                            <div class="col-lg-4 col-md-6 col-sm-6 product-men women_two">
+                                <div class="product-toys-info">
+                                    <div class="men-pro-item">
+                                        <div class="men-thumb-item">
+                                            <img src="@product.ImageUrl" class="img-responsive" alt="resim yok">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a asp-action="Details" asp-route-id="@product.Id" class="link-product-add-cart">Quick View</a>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <a asp-action="Details" class="btn btn-dark form-control" asp-route-id="@product.Id">Details</a>
+                                            <span class="product-new-top">New</span>
+                                        </div>
+                                        <div class="item-info-product">
+                                            <div class="info-product-price">
+                                                <div class="grid_meta">
+                                                    <div class="product_price">
+                                                        <h4>
+                                                            <a>@product.Title</a>
+                                                            <a>by <b>@product.Author</b></a>
+                                                        </h4>
+                                                        <div class="grid-price mt-2">
+                                                            <span class="money ">$ @product.ListPrice.ToString("0.00")</span>
+                                                        </div>
+                                                    </div>
+                                                    <ul class="stars">
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fas fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fas fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fas fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="fas fa-star"></i>
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#">
+                                                                <i class="far fa-star-half-o"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="toys single-item hvr-outline-out">
+                                                    <form action="#" method="post">
+                                                        <input type="hidden" name="cmd" value="_cart">
+                                                        <input type="hidden" name="add" value="1">
+                                                        <input type="hidden" name="toys_item" value="toys(barbie)">
+                                                        <input type="hidden" name="amount" value="575.00">
+                                                       
+                                                    </form>
+                                                </div>
                                             </div>
+                                            <div class="clearfix"></div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
 
-    }
+                            </div>
+                        }
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+    </section>
+
+
+</body>
+</html>

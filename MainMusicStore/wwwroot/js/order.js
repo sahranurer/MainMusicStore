@@ -20,13 +20,13 @@ $(document).ready(function () {
             }
         }
     }
-    // loadDataTable();
+   // loadDataTable();
 });
 
 function loadDataTable(url) {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url": "/Admin/order/" + url
+            "url": "/Admin/order/"+url
         },
         "columns": [
             { "data": "id", "width": "10%" },

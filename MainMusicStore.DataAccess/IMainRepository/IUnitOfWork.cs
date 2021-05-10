@@ -15,6 +15,8 @@ namespace MainMusicStore.DataAccess.IMainRepository
         ICompanyRepository Company { get; }
         IApplicationUserRepository ApplicationUser { get; }
         ISPCallRepository sp_call { get; }
+        IAboutRepository about { get; }
+
         void Save();
     }
 }

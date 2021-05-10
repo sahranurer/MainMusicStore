@@ -21,17 +21,17 @@ namespace MainMusicStore.Areas.Admin.Controllers
         #region Variables
         private readonly IUnitOfWork _uow;
         private readonly IWebHostEnvironment _hostEnvironment;
-       
+
 
         #endregion
 
 
         #region CTOR
-        public ProductController(IUnitOfWork uow , IWebHostEnvironment hostEnvironment)
+        public ProductController(IUnitOfWork uow, IWebHostEnvironment hostEnvironment)
         {
             _uow = uow;
             _hostEnvironment = hostEnvironment;
-        }  
+        }
         #endregion
 
 
@@ -39,13 +39,13 @@ namespace MainMusicStore.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
-        } 
+        }
         #endregion
 
         #region API CALLS
         public IActionResult GetAll()
         {
-            var allObj = _uow.Product.GetAll(includeProperties:"Category");
+            var allObj = _uow.Product.GetAll(includeProperties: "Category");
             return Json(new { data = allObj });
         }
         #endregion
@@ -56,7 +56,7 @@ namespace MainMusicStore.Areas.Admin.Controllers
         {
             var deleteData = _uow.Product.Get(Id);
             if (deleteData == null)
-                 return Json(new { success = false, message = "Data Not Found" });
+                return Json(new { success = false, message = "Data Not Found" });
 
             string webRootPath = _hostEnvironment.WebRootPath;
             var imagePath = Path.Combine(webRootPath, deleteData.ImageUrl.TrimStart('\\'));
@@ -120,8 +120,8 @@ namespace MainMusicStore.Areas.Admin.Controllers
                     string fileName = Guid.NewGuid().ToString();
                     var uploads = Path.Combine(webRootPath, @"images\products");
                     var extenstion = Path.GetExtension(files[0].FileName);
-                
-                if(productVM.Product.ImageUrl != null)
+
+                    if (productVM.Product.ImageUrl != null)
                     {
                         var imagePath = Path.Combine(webRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
                         if (System.IO.File.Exists(imagePath))
@@ -139,7 +139,7 @@ namespace MainMusicStore.Areas.Admin.Controllers
                 }
                 else
                 {
-                    if (productVM.Product.Id != 0 )
+                    if (productVM.Product.Id != 0)
                     {
                         var productData = _uow.Product.Get(productVM.Product.Id);
                         productVM.Product.ImageUrl = productData.ImageUrl;
@@ -180,6 +180,6 @@ namespace MainMusicStore.Areas.Admin.Controllers
             return View(productVM.Product);
         }
 
-        
+
     }
 }

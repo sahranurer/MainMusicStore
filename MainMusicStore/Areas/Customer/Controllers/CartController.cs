@@ -25,25 +25,21 @@ namespace MainMusicStore.Areas.Customer.Controllers
         private readonly IEmailSender _emailSender;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public CartController(IUnitOfWork uow,IEmailSender emailSender, UserManager<IdentityUser> userManager)
+        public CartController(IUnitOfWork uow, IEmailSender emailSender, UserManager<IdentityUser> userManager)
         {
-            //Resharper
             _uow = uow;
             _emailSender = emailSender;
             _userManager = userManager;
-
         }
 
         [BindProperty]
         public ShoppingCartVM ShoppingCartVM { get; set; }
 
+
         public IActionResult Index()
         {
-
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claims = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-
 
             ShoppingCartVM = new ShoppingCartVM()
             {
@@ -55,10 +51,9 @@ namespace MainMusicStore.Areas.Customer.Controllers
             ShoppingCartVM.OrderHeader.ApplicationUser = _uow.ApplicationUser
                                                         .GetFirstOrDefault(u => u.Id == claims.Value, includeProperties: "Company");
 
-
             foreach (var cart in ShoppingCartVM.ListCart)
             {
-                cart.Price = ProjectConstant.GetPriceBaseOnQuantity(cart.Count,cart.Product.Price,cart.Product.Price50,cart.Product.Price100);
+                cart.Price = ProjectConstant.GetPriceBaseOnQuantity(cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
                 cart.Product.Description = ProjectConstant.ConvertToRawHtml(cart.Product.Description);
 
@@ -66,12 +61,9 @@ namespace MainMusicStore.Areas.Customer.Controllers
                 {
                     cart.Product.Description = cart.Product.Description.Substring(0, 49) + "....";
                 }
-            
             }
 
-
             return View(ShoppingCartVM);
-
         }
 
         [HttpPost]
@@ -100,25 +92,31 @@ namespace MainMusicStore.Areas.Customer.Controllers
             return RedirectToAction("Index");
         }
 
+
         public IActionResult Plus(int id)
         {
+            try
+            {
+                var cart = _uow.ShoppingCart.GetFirstOrDefault(x => x.Id == id, includeProperties: "Product");
 
-            var cart = _uow.ShoppingCart.GetFirstOrDefault(x => x.Id == id, includeProperties: "Product");
+                if (cart == null)
+                    return Json(false);
+                //return RedirectToAction("Index");
 
-            if (cart == null)
+                cart.Count += 1;
+                cart.Price = ProjectConstant.GetPriceBaseOnQuantity(cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
+
+                _uow.Save();
+                //var allShoppingCart = _uow.ShoppingCart.GetAll();
+
+                return Json(true);
+                //return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
                 return Json(false);
-            //return RedirectToAction("Index");
-
-            cart.Count += 1;
-            cart.Price = ProjectConstant.GetPriceBaseOnQuantity(cart.Count, cart.Product.Price, cart.Product.Price50, cart.Product.Price100);
-
-            _uow.Save();
-            //var allShoppingCart = _uow.ShoppingCart.GetAll();
-
-            return Json(true);
-            //return RedirectToAction("Index");
-
-        } 
+            }
+        }
 
         public IActionResult Minus(int cartId)
         {
@@ -180,7 +178,6 @@ namespace MainMusicStore.Areas.Customer.Controllers
 
             return View(ShoppingCartVM);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -244,7 +241,7 @@ namespace MainMusicStore.Areas.Customer.Controllers
                 else
                     ShoppingCartVM.OrderHeader.TransactionId = charge.BalanceTransactionId;
 
-                if (charge.Status.ToLower() == "succeeded")
+                if (charge.Status.ToLower()=="succeeded")
                 {
                     ShoppingCartVM.OrderHeader.PaymentStatus = ProjectConstant.PaymentStatusApproved;
                     ShoppingCartVM.OrderHeader.OrderStatus = ProjectConstant.StatusApproved;
@@ -261,6 +258,4 @@ namespace MainMusicStore.Areas.Customer.Controllers
             return View(id);
         }
     }
-
 }
-
